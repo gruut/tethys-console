@@ -15,31 +15,55 @@
 package cmd
 
 import (
+	"time"
 	"fmt"
-
+	"os"
+	"context"
+	"google.golang.org/grpc"
+	"log"
 	"github.com/spf13/cobra"
+	pb "gruut-console/services"
 )
 
-// pingCmd represents the ping command
-var pingCmd = &cobra.Command{
-	Use:   "ping",
+var errorLogger = log.New(os.Stdout, "[Status Request] ", log.Lshortfile)
+
+// statusCmd represents the status command
+var statusCmd = &cobra.Command{
+	Use:   "status",
 	Short: "Check the status of a node.",
 	Long:  ``,
 }
 
-func ping(cmd *cobra.Command, args []string) {
-	fmt.Println("ping called")
+var address string
+
+func status(cmd *cobra.Command, args []string) {
+	connOption := grpc.WithInsecure()
+	conn, err := grpc.Dial(address, connOption)
+	if err != nil {
+		errorLogger.Fatalf("Failed to dial: %v", err)
+	}
+	defer conn.Close()
+
+	client := pb.NewRemoteControlServiceClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
+	defer cancel()
+
+	resp, err := client.CheckStatus(ctx, &pb.RequestStatus{})
+	if err != nil {
+		errorLogger.Fatalf("Failed to request: %v", err)
+	}
+	
+	fmt.Print(resp.Alive)
 }
 
 func init() {
-	rootCmd.AddCommand(pingCmd)
+	rootCmd.AddCommand(statusCmd)
 
 	// Here you will define your flags and configuration settings.
-	pingCmd.Run = ping
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// pingCmd.PersistentFlags().String("foo", "", "A help for foo")
-
+	statusCmd.Run = status
+	
+	statusCmd.PersistentFlags().StringVar(&address, "address", "localhost:59001", "A node address (default is localhost:59001)")
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// pingCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
