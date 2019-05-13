@@ -15,14 +15,15 @@
 package cmd
 
 import (
-	"time"
-	"fmt"
-	"os"
 	"context"
-	"google.golang.org/grpc"
-	"log"
-	"github.com/spf13/cobra"
+	"fmt"
 	pb "gruut-console/services"
+	"log"
+	"os"
+	"time"
+
+	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
 var errorLogger = log.New(os.Stdout, "[Status Request] ", log.Lshortfile)
@@ -46,15 +47,17 @@ func status(cmd *cobra.Command, args []string) {
 
 	client := pb.NewRemoteControlServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
 	resp, err := client.CheckStatus(ctx, &pb.RequestStatus{})
 	if err != nil {
-		errorLogger.Fatalf("Failed to request: %v", err)
+		errorLogger.Fatalf("A node is not running.")
 	}
-	
-	fmt.Print(resp.Alive)
+
+	if resp.Alive == true {
+		fmt.Println("A node is running.")
+	}
 }
 
 func init() {
@@ -62,7 +65,7 @@ func init() {
 
 	// Here you will define your flags and configuration settings.
 	statusCmd.Run = status
-	
+
 	statusCmd.PersistentFlags().StringVar(&address, "address", "localhost:59001", "A node address (default is localhost:59001)")
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

@@ -3,7 +3,6 @@ syntax="proto3";
 package grpc_remote_control;
 
 service RemoteControlService {
-  // Sends a greeting
   rpc CheckStatus (RequestStatus) returns (ResponseStatus) {}
 }
 
