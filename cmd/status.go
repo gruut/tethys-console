@@ -45,14 +45,15 @@ func status(cmd *cobra.Command, args []string) {
 	}
 	defer conn.Close()
 
-	client := pb.NewRemoteControlServiceClient(conn)
+	client := pb.NewGruutAdminServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	resp, err := client.CheckStatus(ctx, &pb.RequestStatus{})
+	resp, err := client.CheckStatus(ctx, &pb.ReqStatus{})
 	if err != nil {
-		errorLogger.Fatalf("A node is not running.")
+		// errorLogger.Fatalf("A node is not running.")
+		errorLogger.Fatalf(err.Error())
 	}
 
 	if resp.Alive == true {
@@ -66,7 +67,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	statusCmd.Run = status
 
-	statusCmd.PersistentFlags().StringVar(&address, "address", "localhost:59001", "A node address (default is localhost:59001)")
+	statusCmd.PersistentFlags().StringVar(&address, "address", "10.10.10.200:59002", "A node address (default is localhost:59001)")
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// pingCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
