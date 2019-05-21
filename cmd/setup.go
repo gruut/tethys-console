@@ -1,4 +1,4 @@
-// Copyright © 2019 Gruut network <contact@gruut.net>
+// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,17 +19,20 @@ import (
 	pb "gruut-console/services"
 	"time"
 
-	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
+	"github.com/spf13/cobra"
 )
 
-var statusCmd = &cobra.Command{
-	Use:   "status",
-	Short: "Check the status of a node.",
-	Long:  ``,
+// setupCmd represents the setup command
+var setupCmd = &cobra.Command{
+	Use:   "setup",
+	Short: "Setup the node",
+	Long: ``,
 }
 
-func status(cmd *cobra.Command, args []string) {
+var password string
+
+func setup(cmd *cobra.Command, args []string) {
 	connOption := grpc.WithInsecure()
 	conn, err := grpc.Dial(address, connOption)
 	if err != nil {
@@ -42,18 +45,20 @@ func status(cmd *cobra.Command, args []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	resp, err := client.CheckStatus(ctx, &pb.ReqStatus{})
+	resp, err := client.Setup(ctx, &pb.ReqSetup{Password: password})
 	if err != nil {
 		errorLogger.Fatalf(err.Error())
 	}
 
-	if resp.Alive == true {
-		infoLogger.Println("A node is running.")
+	if resp.Success == true {
+		infoLogger.Println("The Setup has successfully completed.")
 	}
 }
 
 func init() {
-	rootCmd.AddCommand(statusCmd)
+	rootCmd.AddCommand(setupCmd)
 
-	statusCmd.Run = status
+	setupCmd.Run = setup
+	
+	statusCmd.PersistentFlags().StringVar(&password, "password", "", "")
 }
