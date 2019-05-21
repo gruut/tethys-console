@@ -42,7 +42,7 @@ func setup(cmd *cobra.Command, args []string) {
 
 	client := pb.NewGruutAdminServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	resp, err := client.Setup(ctx, &pb.ReqSetup{Password: password})
@@ -60,5 +60,5 @@ func init() {
 
 	setupCmd.Run = setup
 	
-	statusCmd.PersistentFlags().StringVar(&password, "password", "", "")
+	setupCmd.PersistentFlags().StringVar(&password, "password", "", "")
 }
