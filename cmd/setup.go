@@ -1,38 +1,30 @@
-// Copyright © 2019 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
+	"fmt"
 	"context"
 	pb "gruut-console/services"
-	"time"
+	. "github.com/logrusorgru/aurora"
 
-	"google.golang.org/grpc"
+	"github.com/gen2brain/beeep"
+
 	"github.com/spf13/cobra"
+	"google.golang.org/grpc"
 )
 
 // setupCmd represents the setup command
 var setupCmd = &cobra.Command{
-	Use:   "setup",
-	Short: "Setup the node",
-	Long: ``,
+	Use:     "setup",
+	Short:   "Setup the node",
+	Long:    ``,
+	PostRun: postRun,
 }
 
 var password string
 
 func setup(cmd *cobra.Command, args []string) {
+	fmt.Println(Cyan("[INFO]"),  "It may take a while...")
+
 	connOption := grpc.WithInsecure()
 	conn, err := grpc.Dial(address, connOption)
 	if err != nil {
@@ -42,12 +34,16 @@ func setup(cmd *cobra.Command, args []string) {
 
 	client := pb.NewGruutAdminServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	resp, err := client.Setup(ctx, &pb.ReqSetup{Password: password})
+
 	if err != nil {
-		errorLogger.Fatalf(err.Error())
+		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
+		if beepError != nil {
+			panic(beepError)
+		}
 	}
 
 	if resp.Success == true {
@@ -55,10 +51,17 @@ func setup(cmd *cobra.Command, args []string) {
 	}
 }
 
+func postRun(cmd *cobra.Command, args []string) {
+	err := beeep.Notify("Title", "Message body", "assets/information.png")
+	if err != nil {
+		panic(err)
+	}
+}
+
 func init() {
 	rootCmd.AddCommand(setupCmd)
 
 	setupCmd.Run = setup
-	
+
 	setupCmd.PersistentFlags().StringVar(&password, "password", "", "")
 }
