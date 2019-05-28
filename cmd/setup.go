@@ -1,10 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"context"
 	pb "gruut-console/services"
-	. "github.com/logrusorgru/aurora"
 
 	"github.com/gen2brain/beeep"
 
@@ -22,7 +20,7 @@ var setupCmd = &cobra.Command{
 var port string
 
 func setup(cmd *cobra.Command, args []string) {
-	fmt.Println(Cyan("[INFO]"),  "It may take a while...")
+	infoLogger.Println("It may take a while...")
 
 	connOption := grpc.WithInsecure()
 	conn, err := grpc.Dial(address, connOption)

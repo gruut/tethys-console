@@ -15,12 +15,13 @@
 package cmd
 
 import (
-	"log"
 	"fmt"
+	"log"
 	"os"
 
+	aurora "github.com/logrusorgru/aurora"
 	homedir "github.com/mitchellh/go-homedir"
-	
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -28,8 +29,8 @@ import (
 var cfgFile string
 var address string
 
-var errorLogger = log.New(os.Stdout, "[ERROR] ", log.Lshortfile)
-var infoLogger = log.New(os.Stdout, "[INFO] ", 0)
+var errorLogger = log.New(os.Stdout, fmt.Sprint("[", aurora.Red("ERROR"), "] "), log.Lshortfile)
+var infoLogger = log.New(os.Stdout, fmt.Sprint("[", aurora.Cyan("INFO"), "] "), 0)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
