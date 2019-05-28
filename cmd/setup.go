@@ -17,10 +17,9 @@ var setupCmd = &cobra.Command{
 	Use:     "setup",
 	Short:   "Setup the node",
 	Long:    ``,
-	PostRun: postRun,
 }
 
-var password string
+var port string
 
 func setup(cmd *cobra.Command, args []string) {
 	fmt.Println(Cyan("[INFO]"),  "It may take a while...")
@@ -37,7 +36,7 @@ func setup(cmd *cobra.Command, args []string) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	resp, err := client.Setup(ctx, &pb.ReqSetup{Password: password})
+	resp, err := client.SetupKey(ctx, &pb.ReqSetupKey{SetupPort: port})
 
 	if err != nil {
 		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
@@ -47,14 +46,17 @@ func setup(cmd *cobra.Command, args []string) {
 	}
 
 	if resp.Success == true {
-		infoLogger.Println("The Setup has successfully completed.")
-	}
-}
-
-func postRun(cmd *cobra.Command, args []string) {
-	err := beeep.Notify("Title", "Message body", "assets/information.png")
-	if err != nil {
-		panic(err)
+		err := beeep.Notify("[SETUP KEY]", "The Setup has successfully completed.", "assets/information.png")
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		infoLogger.Println(resp)
+		
+		err := beeep.Notify("[SETUP KEY]", "Failed to setup.", "assets/information.png")
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -63,5 +65,5 @@ func init() {
 
 	setupCmd.Run = setup
 
-	setupCmd.PersistentFlags().StringVar(&password, "password", "", "")
+	setupCmd.PersistentFlags().StringVar(&port, "port", "", "")
 }

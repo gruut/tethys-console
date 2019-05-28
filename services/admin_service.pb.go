@@ -24,96 +24,216 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type ReqStart_Mode int32
+
+const (
+	ReqStart_DEFAULT ReqStart_Mode = 0
+	ReqStart_MONITOR ReqStart_Mode = 1
+)
+
+var ReqStart_Mode_name = map[int32]string{
+	0: "DEFAULT",
+	1: "MONITOR",
+}
+
+var ReqStart_Mode_value = map[string]int32{
+	"DEFAULT": 0,
+	"MONITOR": 1,
+}
+
+func (x ReqStart_Mode) String() string {
+	return proto.EnumName(ReqStart_Mode_name, int32(x))
+}
+
+func (ReqStart_Mode) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{4, 0}
+}
+
 //TODO : 각 메시지별  내부 스펙들은 변경 될 수 있음.
-type ReqSetup struct {
-	Password             string   `protobuf:"bytes,1,opt,name=password,proto3" json:"password,omitempty"`
+type ReqSetupKey struct {
+	SetupPort            string   `protobuf:"bytes,1,opt,name=setup_port,json=setupPort,proto3" json:"setup_port,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ReqSetup) Reset()         { *m = ReqSetup{} }
-func (m *ReqSetup) String() string { return proto.CompactTextString(m) }
-func (*ReqSetup) ProtoMessage()    {}
-func (*ReqSetup) Descriptor() ([]byte, []int) {
+func (m *ReqSetupKey) Reset()         { *m = ReqSetupKey{} }
+func (m *ReqSetupKey) String() string { return proto.CompactTextString(m) }
+func (*ReqSetupKey) ProtoMessage()    {}
+func (*ReqSetupKey) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f9bc00259dc38d22, []int{0}
 }
 
-func (m *ReqSetup) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ReqSetup.Unmarshal(m, b)
+func (m *ReqSetupKey) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqSetupKey.Unmarshal(m, b)
 }
-func (m *ReqSetup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ReqSetup.Marshal(b, m, deterministic)
+func (m *ReqSetupKey) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqSetupKey.Marshal(b, m, deterministic)
 }
-func (m *ReqSetup) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ReqSetup.Merge(m, src)
+func (m *ReqSetupKey) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSetupKey.Merge(m, src)
 }
-func (m *ReqSetup) XXX_Size() int {
-	return xxx_messageInfo_ReqSetup.Size(m)
+func (m *ReqSetupKey) XXX_Size() int {
+	return xxx_messageInfo_ReqSetupKey.Size(m)
 }
-func (m *ReqSetup) XXX_DiscardUnknown() {
-	xxx_messageInfo_ReqSetup.DiscardUnknown(m)
+func (m *ReqSetupKey) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSetupKey.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ReqSetup proto.InternalMessageInfo
+var xxx_messageInfo_ReqSetupKey proto.InternalMessageInfo
 
-func (m *ReqSetup) GetPassword() string {
+func (m *ReqSetupKey) GetSetupPort() string {
 	if m != nil {
-		return m.Password
+		return m.SetupPort
 	}
 	return ""
 }
 
-type ResSetup struct {
+type ResSetupKey struct {
 	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Info                 string   `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ResSetup) Reset()         { *m = ResSetup{} }
-func (m *ResSetup) String() string { return proto.CompactTextString(m) }
-func (*ResSetup) ProtoMessage()    {}
-func (*ResSetup) Descriptor() ([]byte, []int) {
+func (m *ResSetupKey) Reset()         { *m = ResSetupKey{} }
+func (m *ResSetupKey) String() string { return proto.CompactTextString(m) }
+func (*ResSetupKey) ProtoMessage()    {}
+func (*ResSetupKey) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f9bc00259dc38d22, []int{1}
 }
 
-func (m *ResSetup) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ResSetup.Unmarshal(m, b)
+func (m *ResSetupKey) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResSetupKey.Unmarshal(m, b)
 }
-func (m *ResSetup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ResSetup.Marshal(b, m, deterministic)
+func (m *ResSetupKey) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResSetupKey.Marshal(b, m, deterministic)
 }
-func (m *ResSetup) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ResSetup.Merge(m, src)
+func (m *ResSetupKey) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResSetupKey.Merge(m, src)
 }
-func (m *ResSetup) XXX_Size() int {
-	return xxx_messageInfo_ResSetup.Size(m)
+func (m *ResSetupKey) XXX_Size() int {
+	return xxx_messageInfo_ResSetupKey.Size(m)
 }
-func (m *ResSetup) XXX_DiscardUnknown() {
-	xxx_messageInfo_ResSetup.DiscardUnknown(m)
+func (m *ResSetupKey) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResSetupKey.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ResSetup proto.InternalMessageInfo
+var xxx_messageInfo_ResSetupKey proto.InternalMessageInfo
 
-func (m *ResSetup) GetSuccess() bool {
+func (m *ResSetupKey) GetSuccess() bool {
 	if m != nil {
 		return m.Success
 	}
 	return false
 }
 
-type ReqStart struct {
+func (m *ResSetupKey) GetInfo() string {
+	if m != nil {
+		return m.Info
+	}
+	return ""
+}
+
+type ReqLogin struct {
+	Password             string   `protobuf:"bytes,1,opt,name=password,proto3" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReqLogin) Reset()         { *m = ReqLogin{} }
+func (m *ReqLogin) String() string { return proto.CompactTextString(m) }
+func (*ReqLogin) ProtoMessage()    {}
+func (*ReqLogin) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{2}
+}
+
+func (m *ReqLogin) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqLogin.Unmarshal(m, b)
+}
+func (m *ReqLogin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqLogin.Marshal(b, m, deterministic)
+}
+func (m *ReqLogin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqLogin.Merge(m, src)
+}
+func (m *ReqLogin) XXX_Size() int {
+	return xxx_messageInfo_ReqLogin.Size(m)
+}
+func (m *ReqLogin) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqLogin.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqLogin proto.InternalMessageInfo
+
+func (m *ReqLogin) GetPassword() string {
+	if m != nil {
+		return m.Password
+	}
+	return ""
+}
+
+type ResLogin struct {
+	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Info                 string   `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ResLogin) Reset()         { *m = ResLogin{} }
+func (m *ResLogin) String() string { return proto.CompactTextString(m) }
+func (*ResLogin) ProtoMessage()    {}
+func (*ResLogin) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{3}
+}
+
+func (m *ResLogin) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResLogin.Unmarshal(m, b)
+}
+func (m *ResLogin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResLogin.Marshal(b, m, deterministic)
+}
+func (m *ResLogin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResLogin.Merge(m, src)
+}
+func (m *ResLogin) XXX_Size() int {
+	return xxx_messageInfo_ResLogin.Size(m)
+}
+func (m *ResLogin) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResLogin.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResLogin proto.InternalMessageInfo
+
+func (m *ResLogin) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
+func (m *ResLogin) GetInfo() string {
+	if m != nil {
+		return m.Info
+	}
+	return ""
+}
+
+type ReqStart struct {
+	Mode                 ReqStart_Mode `protobuf:"varint,1,opt,name=mode,proto3,enum=grpc_admin.ReqStart_Mode" json:"mode,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
 func (m *ReqStart) Reset()         { *m = ReqStart{} }
 func (m *ReqStart) String() string { return proto.CompactTextString(m) }
 func (*ReqStart) ProtoMessage()    {}
 func (*ReqStart) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f9bc00259dc38d22, []int{2}
+	return fileDescriptor_f9bc00259dc38d22, []int{4}
 }
 
 func (m *ReqStart) XXX_Unmarshal(b []byte) error {
@@ -134,8 +254,16 @@ func (m *ReqStart) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ReqStart proto.InternalMessageInfo
 
+func (m *ReqStart) GetMode() ReqStart_Mode {
+	if m != nil {
+		return m.Mode
+	}
+	return ReqStart_DEFAULT
+}
+
 type ResStart struct {
 	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Info                 string   `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -145,7 +273,7 @@ func (m *ResStart) Reset()         { *m = ResStart{} }
 func (m *ResStart) String() string { return proto.CompactTextString(m) }
 func (*ResStart) ProtoMessage()    {}
 func (*ResStart) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f9bc00259dc38d22, []int{3}
+	return fileDescriptor_f9bc00259dc38d22, []int{5}
 }
 
 func (m *ResStart) XXX_Unmarshal(b []byte) error {
@@ -173,74 +301,11 @@ func (m *ResStart) GetSuccess() bool {
 	return false
 }
 
-type ReqStop struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ReqStop) Reset()         { *m = ReqStop{} }
-func (m *ReqStop) String() string { return proto.CompactTextString(m) }
-func (*ReqStop) ProtoMessage()    {}
-func (*ReqStop) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f9bc00259dc38d22, []int{4}
-}
-
-func (m *ReqStop) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ReqStop.Unmarshal(m, b)
-}
-func (m *ReqStop) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ReqStop.Marshal(b, m, deterministic)
-}
-func (m *ReqStop) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ReqStop.Merge(m, src)
-}
-func (m *ReqStop) XXX_Size() int {
-	return xxx_messageInfo_ReqStop.Size(m)
-}
-func (m *ReqStop) XXX_DiscardUnknown() {
-	xxx_messageInfo_ReqStop.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ReqStop proto.InternalMessageInfo
-
-type ResStop struct {
-	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ResStop) Reset()         { *m = ResStop{} }
-func (m *ResStop) String() string { return proto.CompactTextString(m) }
-func (*ResStop) ProtoMessage()    {}
-func (*ResStop) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f9bc00259dc38d22, []int{5}
-}
-
-func (m *ResStop) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ResStop.Unmarshal(m, b)
-}
-func (m *ResStop) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ResStop.Marshal(b, m, deterministic)
-}
-func (m *ResStop) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ResStop.Merge(m, src)
-}
-func (m *ResStop) XXX_Size() int {
-	return xxx_messageInfo_ResStop.Size(m)
-}
-func (m *ResStop) XXX_DiscardUnknown() {
-	xxx_messageInfo_ResStop.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ResStop proto.InternalMessageInfo
-
-func (m *ResStop) GetSuccess() bool {
+func (m *ResStart) GetInfo() string {
 	if m != nil {
-		return m.Success
+		return m.Info
 	}
-	return false
+	return ""
 }
 
 type ReqStatus struct {
@@ -313,37 +378,208 @@ func (m *ResStatus) GetAlive() bool {
 	return false
 }
 
+type ReqLoadWorld struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReqLoadWorld) Reset()         { *m = ReqLoadWorld{} }
+func (m *ReqLoadWorld) String() string { return proto.CompactTextString(m) }
+func (*ReqLoadWorld) ProtoMessage()    {}
+func (*ReqLoadWorld) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{8}
+}
+
+func (m *ReqLoadWorld) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqLoadWorld.Unmarshal(m, b)
+}
+func (m *ReqLoadWorld) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqLoadWorld.Marshal(b, m, deterministic)
+}
+func (m *ReqLoadWorld) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqLoadWorld.Merge(m, src)
+}
+func (m *ReqLoadWorld) XXX_Size() int {
+	return xxx_messageInfo_ReqLoadWorld.Size(m)
+}
+func (m *ReqLoadWorld) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqLoadWorld.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqLoadWorld proto.InternalMessageInfo
+
+type ResLoadWorld struct {
+	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Info                 string   `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ResLoadWorld) Reset()         { *m = ResLoadWorld{} }
+func (m *ResLoadWorld) String() string { return proto.CompactTextString(m) }
+func (*ResLoadWorld) ProtoMessage()    {}
+func (*ResLoadWorld) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{9}
+}
+
+func (m *ResLoadWorld) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResLoadWorld.Unmarshal(m, b)
+}
+func (m *ResLoadWorld) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResLoadWorld.Marshal(b, m, deterministic)
+}
+func (m *ResLoadWorld) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResLoadWorld.Merge(m, src)
+}
+func (m *ResLoadWorld) XXX_Size() int {
+	return xxx_messageInfo_ResLoadWorld.Size(m)
+}
+func (m *ResLoadWorld) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResLoadWorld.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResLoadWorld proto.InternalMessageInfo
+
+func (m *ResLoadWorld) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
+func (m *ResLoadWorld) GetInfo() string {
+	if m != nil {
+		return m.Info
+	}
+	return ""
+}
+
+type ReqLoadChain struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReqLoadChain) Reset()         { *m = ReqLoadChain{} }
+func (m *ReqLoadChain) String() string { return proto.CompactTextString(m) }
+func (*ReqLoadChain) ProtoMessage()    {}
+func (*ReqLoadChain) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{10}
+}
+
+func (m *ReqLoadChain) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqLoadChain.Unmarshal(m, b)
+}
+func (m *ReqLoadChain) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqLoadChain.Marshal(b, m, deterministic)
+}
+func (m *ReqLoadChain) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqLoadChain.Merge(m, src)
+}
+func (m *ReqLoadChain) XXX_Size() int {
+	return xxx_messageInfo_ReqLoadChain.Size(m)
+}
+func (m *ReqLoadChain) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqLoadChain.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqLoadChain proto.InternalMessageInfo
+
+type ResLoadChain struct {
+	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Info                 string   `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ResLoadChain) Reset()         { *m = ResLoadChain{} }
+func (m *ResLoadChain) String() string { return proto.CompactTextString(m) }
+func (*ResLoadChain) ProtoMessage()    {}
+func (*ResLoadChain) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f9bc00259dc38d22, []int{11}
+}
+
+func (m *ResLoadChain) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResLoadChain.Unmarshal(m, b)
+}
+func (m *ResLoadChain) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResLoadChain.Marshal(b, m, deterministic)
+}
+func (m *ResLoadChain) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResLoadChain.Merge(m, src)
+}
+func (m *ResLoadChain) XXX_Size() int {
+	return xxx_messageInfo_ResLoadChain.Size(m)
+}
+func (m *ResLoadChain) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResLoadChain.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResLoadChain proto.InternalMessageInfo
+
+func (m *ResLoadChain) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
+func (m *ResLoadChain) GetInfo() string {
+	if m != nil {
+		return m.Info
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterType((*ReqSetup)(nil), "grpc_admin.ReqSetup")
-	proto.RegisterType((*ResSetup)(nil), "grpc_admin.ResSetup")
+	proto.RegisterEnum("grpc_admin.ReqStart_Mode", ReqStart_Mode_name, ReqStart_Mode_value)
+	proto.RegisterType((*ReqSetupKey)(nil), "grpc_admin.ReqSetupKey")
+	proto.RegisterType((*ResSetupKey)(nil), "grpc_admin.ResSetupKey")
+	proto.RegisterType((*ReqLogin)(nil), "grpc_admin.ReqLogin")
+	proto.RegisterType((*ResLogin)(nil), "grpc_admin.ResLogin")
 	proto.RegisterType((*ReqStart)(nil), "grpc_admin.ReqStart")
 	proto.RegisterType((*ResStart)(nil), "grpc_admin.ResStart")
-	proto.RegisterType((*ReqStop)(nil), "grpc_admin.ReqStop")
-	proto.RegisterType((*ResStop)(nil), "grpc_admin.ResStop")
 	proto.RegisterType((*ReqStatus)(nil), "grpc_admin.ReqStatus")
 	proto.RegisterType((*ResStatus)(nil), "grpc_admin.ResStatus")
+	proto.RegisterType((*ReqLoadWorld)(nil), "grpc_admin.ReqLoadWorld")
+	proto.RegisterType((*ResLoadWorld)(nil), "grpc_admin.ResLoadWorld")
+	proto.RegisterType((*ReqLoadChain)(nil), "grpc_admin.ReqLoadChain")
+	proto.RegisterType((*ResLoadChain)(nil), "grpc_admin.ResLoadChain")
 }
 
 func init() { proto.RegisterFile("admin_service.proto", fileDescriptor_f9bc00259dc38d22) }
 
 var fileDescriptor_f9bc00259dc38d22 = []byte{
-	// 258 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x51, 0x3d, 0x4f, 0xc3, 0x30,
-	0x14, 0x4c, 0x24, 0x4a, 0x93, 0xd7, 0x09, 0xa7, 0x95, 0x2a, 0x4f, 0x60, 0x10, 0x62, 0xca, 0x50,
-	0xc4, 0xc8, 0x80, 0x18, 0xd8, 0xd3, 0x1f, 0x50, 0x05, 0xd7, 0x82, 0x88, 0x0f, 0x1b, 0x3f, 0xbb,
-	0xfc, 0x71, 0x7e, 0x00, 0x7a, 0x7e, 0x0d, 0x48, 0x4d, 0x95, 0xed, 0xdd, 0xe5, 0x2e, 0xa7, 0x3b,
-	0x43, 0xd5, 0x6e, 0x3f, 0xba, 0xcf, 0x0d, 0x1a, 0xbf, 0xeb, 0xb4, 0xa9, 0x9d, 0xb7, 0xc1, 0x0a,
-	0x78, 0xf1, 0x4e, 0x6f, 0xd2, 0x17, 0x75, 0x0d, 0x45, 0x63, 0xbe, 0xd6, 0x26, 0x44, 0x27, 0x24,
-	0x14, 0xae, 0x45, 0xfc, 0xb6, 0x7e, 0xbb, 0xcc, 0xcf, 0xf3, 0x9b, 0xb2, 0xf9, 0xc3, 0xea, 0x8a,
-	0x74, 0xc8, 0xba, 0x25, 0x4c, 0x31, 0x6a, 0x6d, 0x10, 0x93, 0xac, 0x68, 0x7a, 0xa8, 0x80, 0xff,
-	0x16, 0x5a, 0x1f, 0x7a, 0x07, 0xdd, 0x23, 0x8e, 0x12, 0xa6, 0xc9, 0x61, 0x9d, 0xba, 0xa4, 0x13,
-	0xe9, 0x1c, 0xd1, 0xcf, 0xa0, 0xe4, 0x84, 0x10, 0x51, 0x5d, 0x10, 0x40, 0x06, 0x62, 0x0e, 0x93,
-	0xf6, 0xbd, 0xdb, 0x99, 0xbd, 0x83, 0xc1, 0xea, 0x27, 0x87, 0xb3, 0x27, 0x1f, 0x63, 0x78, 0xa0,
-	0xba, 0x6b, 0xde, 0x41, 0xdc, 0xc1, 0x84, 0xab, 0xcc, 0xeb, 0xff, 0x2d, 0xea, 0x7e, 0x08, 0x79,
-	0xc0, 0x72, 0x6d, 0x95, 0x25, 0x5b, 0xea, 0x33, 0x10, 0x10, 0x2b, 0x8f, 0xb2, 0x2a, 0x13, 0x2b,
-	0x38, 0x49, 0xad, 0xaa, 0xc3, 0xb0, 0x60, 0x9d, 0xac, 0x06, 0x26, 0x4b, 0x51, 0xf7, 0x30, 0x7b,
-	0x7c, 0x35, 0xfa, 0x6d, 0x5f, 0x6e, 0x31, 0xb0, 0x12, 0x2d, 0x17, 0xc3, 0x44, 0xda, 0x25, 0x7b,
-	0x3e, 0x4d, 0x2f, 0x7d, 0xfb, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x99, 0xc1, 0x1c, 0x60, 0x00, 0x02,
+	// 418 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0x5d, 0x8b, 0xda, 0x40,
+	0x14, 0x8d, 0xad, 0xd6, 0xe4, 0xa6, 0x88, 0x9d, 0x2a, 0x4d, 0x03, 0x05, 0x3b, 0x0f, 0xa5, 0x0f,
+	0x6d, 0x1e, 0x2c, 0x85, 0x42, 0x3f, 0x40, 0xec, 0x07, 0xa5, 0x5a, 0x4b, 0xb4, 0xec, 0xc3, 0x3e,
+	0x48, 0x36, 0x99, 0xd5, 0xb0, 0x9a, 0x89, 0x33, 0x13, 0x97, 0xfd, 0x03, 0xfb, 0xbb, 0x97, 0x99,
+	0x89, 0x51, 0x12, 0x5f, 0xf2, 0x96, 0x73, 0xef, 0xb9, 0xe7, 0xcc, 0xfd, 0x08, 0x3c, 0x0f, 0xa2,
+	0x6d, 0x9c, 0x2c, 0x39, 0x61, 0xfb, 0x38, 0x24, 0x5e, 0xca, 0xa8, 0xa0, 0x08, 0x56, 0x2c, 0x0d,
+	0x97, 0x2a, 0x83, 0xdf, 0x81, 0xed, 0x93, 0xdd, 0x9c, 0x88, 0x2c, 0xfd, 0x43, 0xee, 0xd0, 0x2b,
+	0x00, 0x2e, 0xbf, 0x97, 0x29, 0x65, 0xc2, 0x69, 0x0c, 0x1a, 0x6f, 0x2d, 0xdf, 0x52, 0x91, 0x7f,
+	0x94, 0x09, 0xfc, 0x59, 0xb2, 0x79, 0xc1, 0x76, 0xa0, 0xcd, 0xb3, 0x30, 0x24, 0x9c, 0x2b, 0xaa,
+	0xe9, 0x1f, 0x20, 0x42, 0xd0, 0x8c, 0x93, 0x6b, 0xea, 0x3c, 0x52, 0x0a, 0xea, 0x1b, 0xbf, 0x01,
+	0xd3, 0x27, 0xbb, 0x09, 0x5d, 0xc5, 0x09, 0x72, 0xc1, 0x4c, 0x03, 0xce, 0x6f, 0x29, 0x8b, 0x72,
+	0x97, 0x02, 0xe3, 0x4f, 0x92, 0xc7, 0x35, 0xaf, 0x9e, 0xc3, 0xa5, 0x72, 0x98, 0x8b, 0x80, 0x09,
+	0xf4, 0x1e, 0x9a, 0x5b, 0x1a, 0x11, 0x55, 0xd6, 0x19, 0xbe, 0xf4, 0x8e, 0x3d, 0x7b, 0x07, 0x8e,
+	0x37, 0xa5, 0x11, 0xf1, 0x15, 0x0d, 0x0f, 0xa0, 0x29, 0x11, 0xb2, 0xa1, 0xfd, 0xfd, 0xc7, 0xcf,
+	0xd1, 0xff, 0xc9, 0xa2, 0x6b, 0x48, 0x30, 0x9d, 0xfd, 0xfd, 0xbd, 0x98, 0xf9, 0xdd, 0x46, 0xfe,
+	0x2c, 0x2d, 0x5e, 0xef, 0x59, 0x36, 0x58, 0xda, 0x52, 0x64, 0x1c, 0xbf, 0x96, 0x80, 0x6b, 0x80,
+	0x7a, 0xd0, 0x0a, 0x36, 0xf1, 0x9e, 0xe4, 0x2a, 0x1a, 0xe0, 0x0e, 0x3c, 0x55, 0x83, 0x0a, 0xa2,
+	0x0b, 0xca, 0x36, 0x11, 0xfe, 0x22, 0x31, 0x2f, 0x70, 0x4d, 0xf7, 0xa3, 0xda, 0x78, 0x1d, 0xc4,
+	0xc9, 0x89, 0x9a, 0xc2, 0xf5, 0xd4, 0x86, 0xf7, 0x8f, 0xe1, 0xd9, 0x2f, 0x96, 0x65, 0x62, 0x24,
+	0x47, 0x39, 0xd7, 0x77, 0x85, 0xbe, 0x81, 0x59, 0x1c, 0xc5, 0x8b, 0xf2, 0xa8, 0xf3, 0x84, 0x5b,
+	0x4a, 0x14, 0x67, 0x84, 0x0d, 0xf4, 0x11, 0x5a, 0x7a, 0xdf, 0xbd, 0x52, 0xb1, 0x8a, 0xba, 0xa5,
+	0xa8, 0xbe, 0x0d, 0x5d, 0xa6, 0xf7, 0xd1, 0x3b, 0xb7, 0xde, 0x4a, 0x99, 0x8a, 0x62, 0x03, 0x8d,
+	0xc0, 0x3a, 0x19, 0x66, 0xc5, 0x31, 0xcf, 0xb8, 0x4e, 0xc5, 0xf5, 0xb0, 0x90, 0x42, 0x22, 0x9f,
+	0xe0, 0x19, 0x09, 0x95, 0x39, 0x2b, 0xa1, 0xb7, 0x60, 0xa0, 0xaf, 0x60, 0x8f, 0xd7, 0x24, 0xbc,
+	0xc9, 0x4f, 0xa1, 0x5f, 0x6d, 0x41, 0x64, 0xdc, 0xed, 0x57, 0x7b, 0x90, 0x57, 0x64, 0x5c, 0x3d,
+	0x51, 0xff, 0xf2, 0x87, 0x87, 0x00, 0x00, 0x00, 0xff, 0xff, 0x3f, 0xd8, 0x64, 0x49, 0xe2, 0x03,
 	0x00, 0x00,
 }
 
@@ -359,9 +595,11 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type GruutAdminServiceClient interface {
-	Setup(ctx context.Context, in *ReqSetup, opts ...grpc.CallOption) (*ResSetup, error)
-	Start(ctx context.Context, in *ResStart, opts ...grpc.CallOption) (*ResStart, error)
-	Stop(ctx context.Context, in *ReqStop, opts ...grpc.CallOption) (*ResStop, error)
+	SetupKey(ctx context.Context, in *ReqSetupKey, opts ...grpc.CallOption) (*ResSetupKey, error)
+	Login(ctx context.Context, in *ReqLogin, opts ...grpc.CallOption) (*ResLogin, error)
+	Start(ctx context.Context, in *ReqStart, opts ...grpc.CallOption) (*ResStart, error)
+	LoadWorld(ctx context.Context, in *ReqLoadWorld, opts ...grpc.CallOption) (*ResLoadWorld, error)
+	LoadChain(ctx context.Context, in *ReqLoadChain, opts ...grpc.CallOption) (*ResLoadChain, error)
 	CheckStatus(ctx context.Context, in *ReqStatus, opts ...grpc.CallOption) (*ResStatus, error)
 }
 
@@ -373,16 +611,25 @@ func NewGruutAdminServiceClient(cc *grpc.ClientConn) GruutAdminServiceClient {
 	return &gruutAdminServiceClient{cc}
 }
 
-func (c *gruutAdminServiceClient) Setup(ctx context.Context, in *ReqSetup, opts ...grpc.CallOption) (*ResSetup, error) {
-	out := new(ResSetup)
-	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/Setup", in, out, opts...)
+func (c *gruutAdminServiceClient) SetupKey(ctx context.Context, in *ReqSetupKey, opts ...grpc.CallOption) (*ResSetupKey, error) {
+	out := new(ResSetupKey)
+	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/SetupKey", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gruutAdminServiceClient) Start(ctx context.Context, in *ResStart, opts ...grpc.CallOption) (*ResStart, error) {
+func (c *gruutAdminServiceClient) Login(ctx context.Context, in *ReqLogin, opts ...grpc.CallOption) (*ResLogin, error) {
+	out := new(ResLogin)
+	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/Login", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gruutAdminServiceClient) Start(ctx context.Context, in *ReqStart, opts ...grpc.CallOption) (*ResStart, error) {
 	out := new(ResStart)
 	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/Start", in, out, opts...)
 	if err != nil {
@@ -391,9 +638,18 @@ func (c *gruutAdminServiceClient) Start(ctx context.Context, in *ResStart, opts 
 	return out, nil
 }
 
-func (c *gruutAdminServiceClient) Stop(ctx context.Context, in *ReqStop, opts ...grpc.CallOption) (*ResStop, error) {
-	out := new(ResStop)
-	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/Stop", in, out, opts...)
+func (c *gruutAdminServiceClient) LoadWorld(ctx context.Context, in *ReqLoadWorld, opts ...grpc.CallOption) (*ResLoadWorld, error) {
+	out := new(ResLoadWorld)
+	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/LoadWorld", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gruutAdminServiceClient) LoadChain(ctx context.Context, in *ReqLoadChain, opts ...grpc.CallOption) (*ResLoadChain, error) {
+	out := new(ResLoadChain)
+	err := c.cc.Invoke(ctx, "/grpc_admin.GruutAdminService/LoadChain", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -411,9 +667,11 @@ func (c *gruutAdminServiceClient) CheckStatus(ctx context.Context, in *ReqStatus
 
 // GruutAdminServiceServer is the server API for GruutAdminService service.
 type GruutAdminServiceServer interface {
-	Setup(context.Context, *ReqSetup) (*ResSetup, error)
-	Start(context.Context, *ResStart) (*ResStart, error)
-	Stop(context.Context, *ReqStop) (*ResStop, error)
+	SetupKey(context.Context, *ReqSetupKey) (*ResSetupKey, error)
+	Login(context.Context, *ReqLogin) (*ResLogin, error)
+	Start(context.Context, *ReqStart) (*ResStart, error)
+	LoadWorld(context.Context, *ReqLoadWorld) (*ResLoadWorld, error)
+	LoadChain(context.Context, *ReqLoadChain) (*ResLoadChain, error)
 	CheckStatus(context.Context, *ReqStatus) (*ResStatus, error)
 }
 
@@ -421,14 +679,20 @@ type GruutAdminServiceServer interface {
 type UnimplementedGruutAdminServiceServer struct {
 }
 
-func (*UnimplementedGruutAdminServiceServer) Setup(ctx context.Context, req *ReqSetup) (*ResSetup, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Setup not implemented")
+func (*UnimplementedGruutAdminServiceServer) SetupKey(ctx context.Context, req *ReqSetupKey) (*ResSetupKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetupKey not implemented")
 }
-func (*UnimplementedGruutAdminServiceServer) Start(ctx context.Context, req *ResStart) (*ResStart, error) {
+func (*UnimplementedGruutAdminServiceServer) Login(ctx context.Context, req *ReqLogin) (*ResLogin, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (*UnimplementedGruutAdminServiceServer) Start(ctx context.Context, req *ReqStart) (*ResStart, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Start not implemented")
 }
-func (*UnimplementedGruutAdminServiceServer) Stop(ctx context.Context, req *ReqStop) (*ResStop, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Stop not implemented")
+func (*UnimplementedGruutAdminServiceServer) LoadWorld(ctx context.Context, req *ReqLoadWorld) (*ResLoadWorld, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoadWorld not implemented")
+}
+func (*UnimplementedGruutAdminServiceServer) LoadChain(ctx context.Context, req *ReqLoadChain) (*ResLoadChain, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoadChain not implemented")
 }
 func (*UnimplementedGruutAdminServiceServer) CheckStatus(ctx context.Context, req *ReqStatus) (*ResStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckStatus not implemented")
@@ -438,26 +702,44 @@ func RegisterGruutAdminServiceServer(s *grpc.Server, srv GruutAdminServiceServer
 	s.RegisterService(&_GruutAdminService_serviceDesc, srv)
 }
 
-func _GruutAdminService_Setup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqSetup)
+func _GruutAdminService_SetupKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqSetupKey)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GruutAdminServiceServer).Setup(ctx, in)
+		return srv.(GruutAdminServiceServer).SetupKey(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc_admin.GruutAdminService/Setup",
+		FullMethod: "/grpc_admin.GruutAdminService/SetupKey",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GruutAdminServiceServer).Setup(ctx, req.(*ReqSetup))
+		return srv.(GruutAdminServiceServer).SetupKey(ctx, req.(*ReqSetupKey))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GruutAdminService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqLogin)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GruutAdminServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc_admin.GruutAdminService/Login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GruutAdminServiceServer).Login(ctx, req.(*ReqLogin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _GruutAdminService_Start_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResStart)
+	in := new(ReqStart)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -469,25 +751,43 @@ func _GruutAdminService_Start_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/grpc_admin.GruutAdminService/Start",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GruutAdminServiceServer).Start(ctx, req.(*ResStart))
+		return srv.(GruutAdminServiceServer).Start(ctx, req.(*ReqStart))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GruutAdminService_Stop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReqStop)
+func _GruutAdminService_LoadWorld_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqLoadWorld)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GruutAdminServiceServer).Stop(ctx, in)
+		return srv.(GruutAdminServiceServer).LoadWorld(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc_admin.GruutAdminService/Stop",
+		FullMethod: "/grpc_admin.GruutAdminService/LoadWorld",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GruutAdminServiceServer).Stop(ctx, req.(*ReqStop))
+		return srv.(GruutAdminServiceServer).LoadWorld(ctx, req.(*ReqLoadWorld))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GruutAdminService_LoadChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqLoadChain)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GruutAdminServiceServer).LoadChain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc_admin.GruutAdminService/LoadChain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GruutAdminServiceServer).LoadChain(ctx, req.(*ReqLoadChain))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -515,16 +815,24 @@ var _GruutAdminService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*GruutAdminServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Setup",
-			Handler:    _GruutAdminService_Setup_Handler,
+			MethodName: "SetupKey",
+			Handler:    _GruutAdminService_SetupKey_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _GruutAdminService_Login_Handler,
 		},
 		{
 			MethodName: "Start",
 			Handler:    _GruutAdminService_Start_Handler,
 		},
 		{
-			MethodName: "Stop",
-			Handler:    _GruutAdminService_Stop_Handler,
+			MethodName: "LoadWorld",
+			Handler:    _GruutAdminService_LoadWorld_Handler,
+		},
+		{
+			MethodName: "LoadChain",
+			Handler:    _GruutAdminService_LoadChain_Handler,
 		},
 		{
 			MethodName: "CheckStatus",
