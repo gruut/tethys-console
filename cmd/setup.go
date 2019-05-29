@@ -63,5 +63,5 @@ func init() {
 
 	setupCmd.Run = setup
 
-	setupCmd.PersistentFlags().StringVarP(&port, "port", "p", "49090", "port number to get a certificate and a secret key from a user")
+	setupCmd.Flags().StringVarP(&port, "port", "p", "49090", "port number to get a certificate and a secret key from a user")
 }
