@@ -35,6 +35,8 @@ func status(cmd *cobra.Command, args []string) {
 
 	if resp.Alive == true {
 		infoLogger.Println("A node is running.")
+	} else {
+		infoLogger.Println("A node is not running.")
 	}
 }
 
