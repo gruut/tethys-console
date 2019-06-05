@@ -29,7 +29,7 @@ func setup(cmd *cobra.Command, args []string) {
 	}
 	defer conn.Close()
 
-	client := pb.NewGruutAdminServiceClient(conn)
+	client := pb.NewTethysAdminServiceClient(conn)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

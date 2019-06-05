@@ -23,7 +23,7 @@ func status(cmd *cobra.Command, args []string) {
 	}
 	defer conn.Close()
 
-	client := pb.NewGruutAdminServiceClient(conn)
+	client := pb.NewTethysAdminServiceClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
