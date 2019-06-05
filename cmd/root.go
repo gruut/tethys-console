@@ -15,15 +15,19 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 
 	aurora "github.com/logrusorgru/aurora"
 	homedir "github.com/mitchellh/go-homedir"
+	pb "tethys-console/services"
 
+	"github.com/gen2brain/beeep"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
 )
 
 var cfgFile string
@@ -42,18 +46,59 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
+type Response interface {
+	Info() string
+	Error() string
+	Success() bool
+}
+
+func beforeExecute(ctx *context.Context) (*grpc.ClientConn, pb.TethysAdminServiceClient, error) {
+	connOption := grpc.WithInsecure()
+	conn, err := grpc.Dial(address, connOption)
+	if err != nil {
+		errorLogger.Fatalf("Failed to dial: %v", err)
+		return nil, nil, err
+	}
+
+	client := pb.NewTethysAdminServiceClient(conn)
+
+	return conn, client, nil
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+}
+
+func afterExecute(resp Response, err error) {
+	if err != nil {
+		errorLogger.Println(err.Error())
+
+		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
+		if beepError != nil {
+			panic(beepError)
+		}
+
+		return
+	}
+
+	if resp.Success() == true {
+		err := beeep.Notify("", resp.Info(), "assets/information.png")
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		errorLogger.Println(resp.Error())
+
+		err := beeep.Notify("", resp.Error(), "assets/information.png")
+		if err != nil {
+			panic(err)
+		}
+	}	
 }
 
 func init() {

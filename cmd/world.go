@@ -7,11 +7,24 @@ import (
 	pb "tethys-console/services"
 	"time"
 
-	"github.com/gen2brain/beeep"
-
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
+
+type ResLoadWorld struct {
+	res *pb.ResLoadWorld
+}
+
+func (resp ResLoadWorld) Info() string {
+	return resp.res.Info
+}
+
+func (resp ResLoadWorld) Error() string {
+	return resp.res.Info
+}
+
+func (resp ResLoadWorld) Success() bool {
+	return resp.res.Success
+}
 
 // worldCmd represents the world command
 var worldCmd = &cobra.Command{
@@ -29,40 +42,19 @@ func world(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	connOption := grpc.WithInsecure()
-	conn, err := grpc.Dial(address, connOption)
-	if err != nil {
-		errorLogger.Fatalf("Failed to dial: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewTethysAdminServiceClient(conn)
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	conn, client, err := beforeExecute(&ctx)
+	if err != nil {
+		return
+	}
+	defer conn.Close()
+
 	resp, err := client.LoadWorld(ctx, &pb.ReqLoadWorld{Path: path})
 
-	if err != nil {
-		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
-		if beepError != nil {
-			panic(beepError)
-		}
-	}
-
-	if resp.Success == true {
-		err := beeep.Notify("[LOAD_WORLD]", "The loading has successfully completed.", "assets/information.png")
-		if err != nil {
-			panic(err)
-		}
-	} else {
-		infoLogger.Println(resp)
-
-		err := beeep.Notify("[LOAD_WORLD]", "Failed to load.", "assets/information.png")
-		if err != nil {
-			panic(err)
-		}
-	}
+	responseLoadWorld := ResLoadWorld{resp}
+	afterExecute(responseLoadWorld, err)	
 }
 
 func checkFilePathExist() bool {

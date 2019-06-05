@@ -1,14 +1,28 @@
 package cmd
 
 import (
-	"github.com/gen2brain/beeep"
-	"google.golang.org/grpc"
 	"github.com/spf13/viper"
 	pb "tethys-console/services"
 	"context"
 
 	"github.com/spf13/cobra"
 )
+
+type ResStart struct {
+	res *pb.ResStart
+}
+
+func (resp ResStart) Info() string {
+	return resp.res.Info
+}
+
+func (resp ResStart) Error() string {
+	return resp.res.Info
+}
+
+func (resp ResStart) Success() bool {
+	return resp.res.Success
+}
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
@@ -32,44 +46,19 @@ func start(cmd *cobra.Command, args []string)  {
 		mode = pb.ReqStart_DEFAULT
 	}
 
-	connOption := grpc.WithInsecure()
-	conn, err := grpc.Dial(address, connOption)
-	if err != nil {
-		errorLogger.Fatalf("Failed to dial: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewTethysAdminServiceClient(conn)
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	resp, err := client.Start(ctx, &pb.ReqStart{Mode: mode})
-
+	conn, client, err := beforeExecute(&ctx)
 	if err != nil {
-		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
-		if beepError != nil {
-			panic(beepError)
-		}
-
-		errorLogger.Println(err.Error())
-
 		return
 	}
+	defer conn.Close()
 
-	if resp.Success == true {
-		err := beeep.Notify("[START KEY]", resp.Info, "assets/information.png")
-		if err != nil {
-			panic(err)
-		}
-	} else {
-		infoLogger.Println(resp)
-		
-		err := beeep.Notify("[START KEY]", "Failed to start.", "assets/information.png")
-		if err != nil {
-			panic(err)
-		}
-	}
+	resp, err := client.Start(ctx, &pb.ReqStart{Mode: mode})
+
+	responseStart := ResStart{resp}
+	afterExecute(responseStart, err)
 }
 
 func init() {

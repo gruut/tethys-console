@@ -1,4 +1,4 @@
-// Copyright © 2019 Gruut Network <contact@tethys.net>
+// Copyright © 2019 Tethys Network <contact@tethys.net>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

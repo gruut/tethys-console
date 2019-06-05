@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 )
 
 var statusCmd = &cobra.Command{
@@ -16,22 +15,16 @@ var statusCmd = &cobra.Command{
 }
 
 func status(cmd *cobra.Command, args []string) {
-	connOption := grpc.WithInsecure()
-	conn, err := grpc.Dial(address, connOption)
-	if err != nil {
-		errorLogger.Fatalf("Failed to dial: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewTethysAdminServiceClient(conn)
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	resp, err := client.CheckStatus(ctx, &pb.ReqStatus{})
+	conn, client, err := beforeExecute(&ctx)
 	if err != nil {
-		errorLogger.Fatalf(err.Error())
+		return
 	}
+	defer conn.Close()
+
+	resp, err := client.CheckStatus(ctx, &pb.ReqStatus{})
 
 	if resp.Alive == true {
 		infoLogger.Println("A node is running.")
