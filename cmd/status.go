@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"context"
-	pb "gruut-console/services"
+	pb "tethys-console/services"
 	"time"
 
 	"github.com/spf13/cobra"

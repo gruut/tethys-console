@@ -34,7 +34,7 @@ var infoLogger = log.New(os.Stdout, fmt.Sprint("[", aurora.Cyan("INFO"), "] "), 
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "gruut-console",
+	Use:   "tethys-console",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -59,7 +59,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gruut-console.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tethys-console.yaml)")
 
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
@@ -77,9 +77,9 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".gruut-console" (without extension).
+		// Search config in home directory with name ".tethys-console" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".gruut-console")
+		viper.SetConfigName(".tethys-console")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

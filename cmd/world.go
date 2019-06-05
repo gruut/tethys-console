@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"context"
-	pb "gruut-console/services"
+	pb "tethys-console/services"
 	"time"
 
 	"github.com/gen2brain/beeep"

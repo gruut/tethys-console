@@ -4,7 +4,7 @@ import (
 	"github.com/gen2brain/beeep"
 	"google.golang.org/grpc"
 	"github.com/spf13/viper"
-	pb "gruut-console/services"
+	pb "tethys-console/services"
 	"context"
 
 	"github.com/spf13/cobra"
