@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-	"path/filepath"
 	"context"
 	pb "tethys-console/services"
 	"time"
@@ -33,12 +31,12 @@ var worldCmd = &cobra.Command{
 	Long:  ``,
 }
 
-var path string
+var worldPath string
 
 func world(cmd *cobra.Command, args []string) {
-	infoLogger.Println("Load the config file from ", path)
+	infoLogger.Println("Load the config file from ", worldPath)
 
-	if checkFilePathExist() == false {
+	if checkFilePathExist(worldPath) == false {
 		return
 	}
 
@@ -51,25 +49,10 @@ func world(cmd *cobra.Command, args []string) {
 	}
 	defer conn.Close()
 
-	resp, err := client.LoadWorld(ctx, &pb.ReqLoadWorld{Path: path})
+	resp, err := client.LoadWorld(ctx, &pb.ReqLoadWorld{Path: worldPath})
 
 	responseLoadWorld := ResLoadWorld{resp}
 	afterExecute(responseLoadWorld, err)	
-}
-
-func checkFilePathExist() bool {
-	worldConfigFilePath := path
-
-	if !filepath.IsAbs(path) {
-		worldConfigFilePath, _ = filepath.Abs(worldConfigFilePath)
-	}
-
-	if _, err := os.Stat(worldConfigFilePath); os.IsNotExist(err) {
-		errorLogger.Println("File does not exist.")
-		return false
-	}
- 
-	return true
 }
 
 func init() {
@@ -77,5 +60,5 @@ func init() {
 
 	worldCmd.Run = world
 
-	worldCmd.Flags().StringVarP(&path, "path", "p", "", "'world_create.json' path")
+	worldCmd.Flags().StringVarP(&worldPath, "path", "p", "", "'world_create.json' path")
 }
