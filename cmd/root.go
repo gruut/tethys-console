@@ -87,14 +87,14 @@ func afterExecute(resp Response, err error) {
 	}
 
 	if resp.Success() == true {
-		err := beeep.Notify("", resp.Info(), "assets/information.png")
+		err := beeep.Notify("[SUCCESS]", resp.Info(), "assets/information.png")
 		if err != nil {
 			panic(err)
 		}
 	} else {
 		errorLogger.Println(resp.Error())
 
-		err := beeep.Notify("", resp.Error(), "assets/information.png")
+		err := beeep.Notify("[FAILED]", resp.Error(), "assets/information.png")
 		if err != nil {
 			panic(err)
 		}
