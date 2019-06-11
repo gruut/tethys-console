@@ -56,7 +56,10 @@ func start(cmd *cobra.Command, args []string)  {
 	defer conn.Close()
 
 	resp, err := client.Start(ctx, &pb.ReqStart{Mode: mode})
-
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
+	
 	responseStart := ResStart{resp}
 	afterExecute(responseStart, err)
 }

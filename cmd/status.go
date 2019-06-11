@@ -25,6 +25,9 @@ func status(cmd *cobra.Command, args []string) {
 	defer conn.Close()
 
 	resp, err := client.CheckStatus(ctx, &pb.ReqStatus{})
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
 
 	if resp.Alive == true {
 		infoLogger.Println("A node is running.")

@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 )
 
-
 func checkFilePathExist(path string) bool {
 	chainConfigFilePath := path
 

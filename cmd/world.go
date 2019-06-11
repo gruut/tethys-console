@@ -50,6 +50,9 @@ func world(cmd *cobra.Command, args []string) {
 	defer conn.Close()
 
 	resp, err := client.LoadWorld(ctx, &pb.ReqLoadWorld{Path: worldPath})
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
 
 	responseLoadWorld := ResLoadWorld{resp}
 	afterExecute(responseLoadWorld, err)	

@@ -45,7 +45,9 @@ func setup(cmd *cobra.Command, args []string) {
 	defer conn.Close()
 
 	resp, err := client.SetupKey(ctx, &pb.ReqSetupKey{SetupPort: port})
-
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
 
 	responseSetup := ResSetup{resp}
 	afterExecute(responseSetup, err)

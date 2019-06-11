@@ -53,7 +53,10 @@ func chain(cmd *cobra.Command, args []string) {
 	defer conn.Close()
 
 	resp, err := client.LoadChain(ctx, &pb.ReqLoadChain{Path: chainPath})
-
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
+	
 	responseLoadChain := ResLoadChain{resp}
 	afterExecute(responseLoadChain, err)
 }

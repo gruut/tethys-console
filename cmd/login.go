@@ -44,6 +44,9 @@ func login(cmd *cobra.Command, args []string) {
 	defer conn.Close()
 
 	resp, err := client.Login(ctx, &pb.ReqLogin{Password: password})
+	if err != nil {
+		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
+	}
 	
 	responseLogin := ResLogin{resp}
 	afterExecute(responseLogin, err)
