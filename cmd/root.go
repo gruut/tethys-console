@@ -80,7 +80,7 @@ func afterExecute(resp Response, err error) {
 
 		beepError := beeep.Notify("Error", err.Error(), "assets/warning.png")
 		if beepError != nil {
-			panic(beepError)
+			errorLogger.Fatal(beepError)
 		}
 
 		return
@@ -96,7 +96,7 @@ func afterExecute(resp Response, err error) {
 
 		err := beeep.Notify("[FAILED]", resp.Error(), "assets/information.png")
 		if err != nil {
-			panic(err)
+			errorLogger.Fatal(err)
 		}
 	}	
 }
