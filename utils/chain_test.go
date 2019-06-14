@@ -3,8 +3,9 @@ package utils
 import (
 	"fmt"
 	"log"
-	"reflect"
 	"testing"
+	
+	functional "github.com/thoas/go-funk"
 )
 
 func plusOne(in <-chan int) <-chan int {
@@ -87,15 +88,15 @@ func TestFanIn(t *testing.T) {
 
 	go func() {
 		defer close(c1)
-		c1<-1
+		c1 <- 1
 	}()
 	go func() {
 		defer close(c2)
-		c2<-2
+		c2 <- 2
 	}()
 	go func() {
 		defer close(c3)
-		c3<-3
+		c3 <- 3
 	}()
 
 	channels := []<-chan int{c1, c2, c3}
@@ -111,21 +112,54 @@ func TestFanIn(t *testing.T) {
 		{
 			"FanIn",
 			args{channels},
-			[]int{1,2,3,4,5,6},
+			[]int{1, 2, 3},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := FanIn(tt.args.ins...)
-			
+
 			arr := []int{}
 			for v := range got {
 				arr = append(arr, v)
 			}
 
-			if !reflect.DeepEqual(arr, tt.want) {
+			intersec := functional.Intersect(arr, tt.want).([]int)
+			if len(intersec) != len(tt.want) {
 				t.Errorf("FanIn() = %v, want %v", arr, tt.want)
 			}
+		})
+	}
+}
+
+func TestDistribution(t *testing.T) {
+	type args struct {
+		p IntPipe
+		n int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			"Distribution",
+			args{Chain(Chain(plusOne, plusOne, plusOne), plusOne), 2},
+			5,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			in := make(chan int)
+			go func() {
+				in <- 1
+				close(in)
+			}()
+
+			got := Distribution(tt.args.p, tt.args.n)(in)
+			if actual := <-got; actual != tt.want {
+				t.Errorf("Distribution() = %v, want %v", actual, tt.want)
+			}	
 		})
 	}
 }

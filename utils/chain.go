@@ -38,3 +38,15 @@ func FanIn(ins ...<-chan int) <-chan int {
 
 	return out
 }
+
+func Distribution(p IntPipe, n int) IntPipe {
+	return func(in <-chan int) <-chan int {
+		cs := make([]<-chan int, n)
+		
+		for i := 0; i < n ; i++ {
+			cs[i] = p(in)
+		}
+
+		return FanIn(cs...)
+	}
+}
