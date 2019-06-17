@@ -22,7 +22,7 @@ import (
 
 	aurora "github.com/logrusorgru/aurora"
 	homedir "github.com/mitchellh/go-homedir"
-	pb "tethys-console/services"
+	pb "tethys-console/services/grpc_admin"
 
 	"github.com/gen2brain/beeep"
 	"github.com/spf13/cobra"

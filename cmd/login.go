@@ -3,7 +3,7 @@ package cmd
 import (
 	"context"
 
-	pb "tethys-console/services"
+	pb "tethys-console/services/grpc_admin"
 
 	"github.com/spf13/cobra"
 )

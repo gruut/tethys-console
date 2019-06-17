@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/viper"
-	pb "tethys-console/services"
+	pb "tethys-console/services/grpc_admin"
 	"context"
 
 	"github.com/spf13/cobra"
