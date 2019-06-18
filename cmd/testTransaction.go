@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"io/ioutil"
+	"os"
 	"fmt"
 	"crypto/sha256"
 	"context"
@@ -20,7 +22,7 @@ func testTransaction(cmd *cobra.Command, args []string) {
 	defer cancel()
 
 	connOption := grpc.WithInsecure()
-	conn, err := grpc.Dial(address, connOption)
+	conn, err := grpc.Dial("10.10.10.200:59001", connOption)
 	if err != nil {
 		errorLogger.Fatalf("Failed to dial: %v", err)
 	}
@@ -34,11 +36,12 @@ func testTransaction(cmd *cobra.Command, args []string) {
 	message_id := generateMessageID()
 	message := generateMessageBody()
 
-	resp, err := client.MergerService(ctx, &pb.RequestMsg{Broadcast: false, MessageId: message_id, Message: message})
+	msgStatus, err := client.MergerService(ctx, &pb.RequestMsg{Broadcast: false, MessageId: message_id, Message: message})
 	if err != nil {
 		errorLogger.Fatalln("A connection was not established because of following error: ", err.Error())
 	}
 	
+	fmt.Println(msgStatus)
 }
 
 func generateMessageID() string {
@@ -48,7 +51,16 @@ func generateMessageID() string {
 }
 
 func generateMessageBody() []byte {
+	jsonFile, err := os.Open("test_tx.json")
+	if err != nil {
+		errorLogger.Fatalln("Cannot read the json file")
+	}
+
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
 	
+	return byteValue
 }
 
 func init() {
