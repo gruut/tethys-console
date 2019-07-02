@@ -17,12 +17,14 @@ var testTransactionCmd = &cobra.Command{
 	Short: "Command in order to send transactions to a node",
 }
 
+var p2pAddr string
+
 func testTransaction(cmd *cobra.Command, args []string) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	connOption := grpc.WithInsecure()
-	conn, err := grpc.Dial("10.10.10.200:59001", connOption)
+	conn, err := grpc.Dial(p2pAddr, connOption)
 	if err != nil {
 		errorLogger.Fatalf("Failed to dial: %v", err)
 	}
@@ -67,4 +69,6 @@ func init() {
 	rootCmd.AddCommand(testTransactionCmd)
 
 	testTransactionCmd.Run = testTransaction
+
+	loginCmd.Flags().StringVarP(&p2pAddr, "address", "addr", "10.10.10.200:59001", "The address of a merger (Default address: 10.10.10.200:59001)")
 }
